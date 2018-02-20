@@ -11,7 +11,9 @@ var options = {
 };
 
 router.get('/', function(req, res, next) {
-  PythonShell.run('authorization.py', options);
+  PythonShell.run('authorization.py', options, function(err){
+    if (err) res.redirect('localhost:3000/users');
+  });
 });
 
 module.exports = router;
