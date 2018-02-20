@@ -7,12 +7,12 @@ var options = {
   mode: 'text',
   pythonPath: 'python3',
   pythonOptions: ['-u'], // get print results in real-time
-  scriptPath: 'python'
+  scriptPath: 'polar_python'
 };
 
 router.get('/', function(req, res, next) {
   PythonShell.run('authorization.py', options, function(err){
-    if (err) res.redirect('localhost:3000/users');
+    if (err) throw err;
   });
 });
 
