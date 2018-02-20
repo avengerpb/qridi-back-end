@@ -6,13 +6,12 @@ var fetch = require('node-fetch');
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
-  var data = readYaml.sync('python/config.yml');
+  var data = readYaml.sync('polar_python/config.yml');
   var id = data.user_id;
-  const request = require('node-fetch');
-  const inputBody = {"member-id": id};
+  var token  = data.access_token;
   const headers = {
-    'Authorization' : 'Bearer ' + id,
-    'Accept':'application/json'
+    'Accept':'application/json',
+    'Authorization' : 'Bearer ' + token
   };
 
     fetch('https://www.polaraccesslink.com/v3/users/'+id,
