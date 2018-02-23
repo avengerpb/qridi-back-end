@@ -1,3 +1,5 @@
+//Index routing will be our homepage for now I think we can leave it untouch
+
 var express = require('express');
 var router = express.Router();
 

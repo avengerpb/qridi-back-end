@@ -1,7 +1,7 @@
 var fetch = require('node-fetch');
 const data = require('../database/user')
 
-//get info from API
+//GET info from API
 function getInfo(id,token){
   const headers = {
     'Accept':'application/json',
