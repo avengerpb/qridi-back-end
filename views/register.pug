@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    title Trada | Register
+  body
+    form(method="POST" action="/users/register")
+      label User name
+      input(type="text" name="username")
+      br
+      label Email
+      input(type="text" name="email")
+      br
+      label Password
+      input(type="password" name="password")
+      br
+      label Confirm password
+      input(type="password" name="cpassword")
+      br
+      br
+      a(href="/")
+        input(type="button" name="back" value="Back")
+      input(type="submit" value="Register")
