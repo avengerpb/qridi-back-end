@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var dbURI = 'mongodb://swf:12345@ds233748.mlab.com:33748/qridi';
+var jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
 const db = mongoose.createConnection(dbURI);
 
 //update User information
@@ -17,7 +19,7 @@ function register(newUser){
 	}, (err, user) => {
 		if(err) throw err;
 		if(!user) {
-			db.User.insert(newUser, (err, user) => {
+			db.collection('Users').insert(newUser, (err, user) => {
 				if(err) { throw err; }
 				console.log('Registration succeed!');
 			});
@@ -32,5 +34,32 @@ function register(newUser){
 		});
 }
 
+function login(req){
+  db.collection('Users').findOne({
+		$or: [
+			{'email': req.body.email_uname},
+			{'username': req.body.email_uname}
+		]
+	}, (err, user) => {
+		if(err) throw err;
+		if(!user) {
+			console.log("User doesn't exist");
+		} else {
+			let checkPass = bcrypt.compareSync(req.body.password, user.password);
+			if(checkPass == false){
+				console.log('Wrong password!');
+			} else {
+				console.log('Logged in');
+				// session = req.session;
+				// session.user = user;
+				const token = jwt.sign(user, 'secret', {
+					expiresIn: 604800 //1 week
+				});
+			}
+		}
+	});
+}
+
 module.exports.upsert = upsert;
 module.exports.register = register;
+module.exports.login = login;

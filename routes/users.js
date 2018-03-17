@@ -18,25 +18,35 @@ router.get('/student_info', function(req, res, next) {
   api.getInfo(id,token); //Call function to store user info to database
 });
 
+//Register
 router.get('/register', function(req, res, next) {
   res.render('register');
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', function(req, res) {
 	// let bcrypt = require('bcryptjs');
 	let salt = bcrypt.genSaltSync(10);
 	let hash = bcrypt.hashSync(req.body.password, salt);
 
 	let newUser = {
-		fullname: req.body.fullname,
+		fullname: 'test',
 		username: req.body.username,
 		email: req.body.email,
 		password: hash,
 		user_type: 'Normal'
 	}
-	data.register(req.body.username,req.body.email)
+  console.log(newUser)
+	data.register(newUser)
 });
 
-//Teacher
+//Login
+router.get('/login', function(req, res, next) {
+    res.render('login');
+});
+
+router.post('/login', function(req, res) {
+    data.login(req)
+});
+
 
 module.exports = router;
