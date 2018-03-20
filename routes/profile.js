@@ -6,7 +6,9 @@ const profile = require('../modules/database/profile')
 
 /* GET home page. */
 router.get('/:name', function(req, res) {
-  profile.getProfile(req.params.name)
+  profile.getProfile(req.params.name, function(response){
+    res.json(response)
+  })
 });
 
 module.exports = router;

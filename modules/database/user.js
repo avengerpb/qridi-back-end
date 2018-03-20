@@ -7,10 +7,9 @@ const db = mongoose.createConnection(dbURI);
 //update User information
 function upsert(data){
     db.collection('Users').insert(data);
-  });
 }
 
-function register(newUser){
+function register(newUser, callback){
   db.collection('Users').findOne({
 		$or: [
 			{'username': newUser.username},
@@ -21,20 +20,20 @@ function register(newUser){
 		if(!user) {
 			db.collection('Users').insert(newUser, (err, user) => {
 				if(err) { throw err; }
-				console.log('Registration succeed!');
+				return callback('Register success');
 			});
 		} else {
 			if(user.username == newUser.username) {
-				console.log('This username has already existed!');
+				return callback('Register failed: Existed name');
 			}
 			if(user.email == newUser.email){
-				console.log('This email has already existed!');
+				return callback('Register failed: Existed email');
 			}
 		}
 		});
 }
 
-function login(req){
+function login(req, callback){
   db.collection('Users').findOne({
 		$or: [
 			{'email': req.body.email_uname},
@@ -43,13 +42,13 @@ function login(req){
 	}, (err, user) => {
 		if(err) throw err;
 		if(!user) {
-			console.log("User doesn't exist");
+			return callback("User doesn't exist");
 		} else {
 			let checkPass = bcrypt.compareSync(req.body.password, user.password);
 			if(checkPass == false){
-				console.log('Wrong password!');
+				return callback('Wrong password!');
 			} else {
-				console.log('Logged in');
+				return callback('Logged in');
 				// session = req.session;
 				// session.user = user;
 				const token = jwt.sign(user, 'secret', {

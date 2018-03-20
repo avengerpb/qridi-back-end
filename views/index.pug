@@ -2,4 +2,7 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to Qridi
+  button(onclick="location.href='http://127.0.0.1:3000/users/register'", type='button') Register for Teacher
+  button(onclick="location.href='http://127.0.0.1:3000/api/get_token'", type='button') Register for Student
+  button(onclick="location.href='http://localhost:3000/users/login'", type='button') Login for Teacher

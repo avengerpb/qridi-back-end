@@ -35,8 +35,9 @@ router.post('/register', function(req, res) {
 		password: hash,
 		user_type: 'Normal'
 	}
-  console.log(newUser)
-	data.register(newUser)
+	data.register(newUser, function(response){
+    res.json({'Respone':response})
+  });
 });
 
 //Login
@@ -45,7 +46,9 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/login', function(req, res) {
-    data.login(req)
+    data.login(req, function(response){
+      res.json({'Respone':response})
+    })
 });
 
 
