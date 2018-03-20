@@ -6,8 +6,8 @@ const db = mongoose.createConnection(dbURI);
 
 //update User information
 function upsert(data){
-  db.collection('Users').update(
-    {data},{data},{upsert: true});
+    db.collection('Users').insert(data);
+  });
 }
 
 function register(newUser){

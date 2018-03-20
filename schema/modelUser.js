@@ -1,20 +1,24 @@
-var Schema = require('mongoose');
-var userSchema = Schema (
+var db = require('mongoose');
+var Schema = db.Schema
+var userSchema = new Schema (
 	{
-	fname: String,
-	lname: String,
-	address: String,
- 	bod: Date,
-	email: String,
-	gender: String,
-	occupation: String,
-	height: int,
-	weight: double,
-	trainningBackground: String,
-	telephone: String,
-	avatar: String,
-	nickname: String,
-	hash_pass: String,
+		"polar-user-id": {type: Number},
+	  "member-id": {type: String},
+	  "registration-date": {type: String},
+	  "first-name": {type: String},
+	  "last-name": {type: String},
+	  "birthdate": {type: String},
+	  "gender": {type: String},
+	  "weight": {type: Number},
+	  "height": {type: Number},
+	  "field": [
+	    {
+	      "value": {type: String},
+	      "index": {type: Number},
+	      "name": {type: String}
+	    }
+	  ]
+
 	});
 
-module.exports = db.model('userModel', userSchema);
+module.exports = db.model('User', userSchema);
