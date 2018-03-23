@@ -7,9 +7,15 @@ var options = {
   scriptPath: 'polar_python'
 };
 //Run python Shell for to get token
-function getToken (){
+function getToken (callback){
   PythonShell.run('authorization.py', options, function(err){
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+      return callback('Get Token success')
+    }
+    else {
+      return callback(false)
+    }
   });
 }
 

@@ -7,7 +7,9 @@ const auth = require('../modules/api/auth')
 /* GET home page. */
 
 router.get('/get_token', function(req, res, next) {
-  auth.getToken();
+  auth.getToken(function(response){
+    res.json(response)
+  });
 });
 
 module.exports = router;
