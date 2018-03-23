@@ -42,13 +42,13 @@ function login(req, callback){
 	}, (err, user) => {
 		if(err) throw err;
 		if(!user) {
-			return callback("User doesn't exist");
+			return callback(0);
 		} else {
 			let checkPass = bcrypt.compareSync(req.body.password, user.password);
 			if(checkPass == false){
-				return callback('Wrong password!');
+				return callback(1);
 			} else {
-				return callback('Logged in');
+				return callback(user);
 				// session = req.session;
 				// session.user = user;
 				const token = jwt.sign(user, 'secret', {

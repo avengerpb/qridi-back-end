@@ -7,7 +7,6 @@ var bcrypt = require('bcryptjs');
 const api = require('../modules/api/user')
 const data = require('../modules/database/user')
 
-
 //Student
 /* GET and store student_info from API */
 router.get('/student_info', function(req, res, next) {
@@ -44,11 +43,36 @@ router.post('/register', function(req, res) {
 router.get('/login', function(req, res, next) {
     res.render('login');
 });
+var save_session = function(req,user){
+    req.session.user = user;
+}
 
-router.post('/login', function(req, res) {
+router.post('/login', function(req, res, next) {
     data.login(req, function(response){
-      res.json({'Respone':response})
+      if (response != 0 && response != 1){
+        req.session.user = response;
+        res.redirect("/profile/"+ response.username);
+      }
+      else if (response == 0) {
+        res.json("No user")
+      }
+      else if (response == 1) {
+        res.json("Wrong password")
+      }
+      else {
+        res.json("Problem")
+      }
     })
+});
+
+router.get('/logout', (req, res) => {
+	req.session.destroy((err) => {
+	  if(err) {
+	    throw err;
+	  } else {
+	    res.json('Logged Out');
+	  }
+	});
 });
 
 
