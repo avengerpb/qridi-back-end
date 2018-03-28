@@ -3,6 +3,7 @@ var dbURI = 'mongodb://swf:12345@ds233748.mlab.com:33748/qridi';
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const db = mongoose.createConnection(dbURI);
+var data
 
 //update User information
 function upsert(data){

@@ -14,6 +14,7 @@ router.get('/student_info', function(req, res, next) {
   var data = readYaml.sync('polar_python/config.yml');
   var id = data.user_id;
   var token  = data.access_token;
+  req.session.token = token;
   api.getInfo(id,token); //Call function to store user info to database
 });
 

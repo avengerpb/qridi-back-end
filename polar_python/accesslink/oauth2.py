@@ -36,6 +36,7 @@ class OAuth2Client(object):
         params = {
             "client_id": self.client_id,
             "response_type": response_type,
+            "scope": "accesslink.read_all"
         }
 
         if self.redirect_url:
