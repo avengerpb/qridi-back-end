@@ -3,11 +3,34 @@ var dbURI = 'mongodb://swf:12345@ds233748.mlab.com:33748/qridi';
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const db = mongoose.createConnection(dbURI);
-var data
+// var data;
+var model = require('../../schema/modelUser')
+var Schema = mongoose.Schema;
 
-//update User information
-function upsert(data){
-    db.collection('Users').insert(data);
+
+//Defining the schema
+ var UserSchema = new Schema({
+   'polar-user-id':{type: Number},
+   'member-id':{type:String},
+   'registration-date': {type:String},
+   'first-name':{type:String},
+   'last-name':{type:String},
+   'birthdate':{type:String},
+   'gender': {type:String},
+   'weight':{type:String},
+   'height': {type:String},
+   'field':{type:String}
+ });
+
+var Polardata = mongoose.model('Polardata', UserSchema);
+//Store User information
+function storeUser(data){
+
+  var Pdata = new Polardata();
+  for (var key in data) {
+    Pdata[key] = data[key];
+}
+    db.collection('Users').save(Pdata);
 }
 
 function register(newUser, callback){
@@ -60,6 +83,6 @@ function login(req, callback){
 	});
 }
 
-module.exports.upsert = upsert;
+module.exports.storeUser = storeUser;
 module.exports.register = register;
 module.exports.login = login;
