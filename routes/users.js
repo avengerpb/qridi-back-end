@@ -8,15 +8,6 @@ const api = require('../modules/api/user')
 const data = require('../modules/database/user')
 
 //Student
-/* GET and store student_info from API */
-router.get('/student_info', function(req, res, next) {
-  //Read python/config.yml to find token
-  var data = readYaml.sync('polar_python/config.yml');
-  var id = data.user_id;
-  var token  = data.access_token;
-  req.session.token = token;
-  api.getInfo(id,token); //Call function to store user info to database
-});
 
 //Register
 router.get('/register', function(req, res, next) {

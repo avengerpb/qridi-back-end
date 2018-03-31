@@ -96,6 +96,24 @@ function getData(id,token, uri, response){
   });
 }
 
+function commitData(id,token, uri){
+  const headers = {
+    'Accept':'application/json',
+    'Authorization' : 'Bearer ' + token
+  };
+
+  fetch(uri,
+  {
+    method: 'PUT',
+    headers: headers
+  })
+  .then(function(res) {
+      return res.json();
+  }).then(function(body) {
+        console.log('Commited')
+  });
+}
+
 module.exports.getInfo = getInfo;
 module.exports.getTraining = getTraining;
 module.exports.getDaily = getDaily;

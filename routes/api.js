@@ -6,6 +6,7 @@ const auth = require('../modules/api/auth')
 const trans =  require('../modules/api/transaction')
 const user =  require('../modules/api/user')
 var readYaml = require('read-yaml');
+var store = require('../modules/database/user');
 
 /* GET Token. */
 
@@ -13,6 +14,15 @@ router.get('/get_token', function(req, res, next) {
   auth.getToken(function(response){
     res.json(response)
   });
+});
+
+router.get('/getInfo', function(req, res, next) {
+  //Read python/config.yml to find token
+  var data = readYaml.sync('polar_python/config.yml');
+  var id = data.user_id;
+  var token  = data.access_token;
+  req.session.token = token;
+  user.getInfo(id,token); //Call function to store user info to database
 });
 
 // Get exercise data
@@ -25,13 +35,14 @@ router.get('/getExercise', function(req, res, next) {
       if (response){
         user.getTraining(id,token, response, function (ms){
           ms.forEach(elem => {
-            console.log(elem);
             user.getData(id, token, elem, function(data) {
               console.log(data);
-              return res.json(data);
+              store.storeExercise(data);
+              return res.json('Get Exercise');
             });
           });
         });
+        user.commitData(id,token, response);
       }
       else {
         return res.json('No new Exercise data');
@@ -49,13 +60,13 @@ router.get('/getActivity', function(req, res, next) {
       if (response){
         user.getDaily(id,token, response, function (ms){
           ms.forEach(elem => {
-            console.log(elem);
             user.getData(id, token, elem, function(data) {
               console.log(data);
-              return res.json(data);
+              store.storeActivity(data);
             });
           });
         });
+        user.commitData(id,token, response);
       }
       else {
         return res.json('No new Activity data');
@@ -74,12 +85,13 @@ router.get('/getPhysical', function(req, res, next) {
       if (response){
         user.getPhysical(id,token, response, function (ms){
           ms.forEach(elem => {
-            console.log(elem);
             user.getData(id, token, elem, function(data) {
-              return res.json(data);
+              console.log(data);
+              store.storePhysical(data);
             });
           });
         });
+        user.commitData(id,token, response);
       }
       else {
         return res.json('No new Physical data');

@@ -8,29 +8,47 @@ var model = require('../../schema/modelUser')
 var Schema = mongoose.Schema;
 
 
-//Defining the schema
- var UserSchema = new Schema({
-   'polar-user-id':{type: Number},
-   'member-id':{type:String},
-   'registration-date': {type:String},
-   'first-name':{type:String},
-   'last-name':{type:String},
-   'birthdate':{type:String},
-   'gender': {type:String},
-   'weight':{type:String},
-   'height': {type:String},
-   'field':{type:String}
- });
-
-var Polardata = mongoose.model('Polardata', UserSchema);
+var Usermodel = mongoose.model('Usermodel', model.UserSchema);
+var Activitymodel = mongoose.model('Activitymodel', model.ActivitySchema);
+var Physicalmodel = mongoose.model('Physicalmodel', model.PhysicalInfoSchema);
+var Exercisemodel = mongoose.model('Exercisemodel', model.ExerciseSchema);
 //Store User information
 function storeUser(data){
 
-  var Pdata = new Polardata();
+  var User = new Usermodel();
   for (var key in data) {
-    Pdata[key] = data[key];
+    User[key] = data[key];
 }
-    db.collection('Users').save(Pdata);
+    db.collection('Users').save(User);
+}
+
+function storeActivity(data){
+
+  var Activity = new Activitymodel();
+  for (var key in data) {
+    Activity[key] = data[key];
+}
+    db.collection('Activity').save(Activity);
+}
+
+function storePhysical(data){
+
+  var Physical = new Physicalmodel();
+  for (var key in data) {
+    Physical[key] = data[key];
+}
+
+    db.collection('Physical').save(Physical);
+}
+
+function storeExercise(data){
+
+  var Exercise = new Exercisemodel();
+  for (var key in data) {
+    Exercise[key] = data[key];
+}
+
+    db.collection('Exercise').save(Exercise);
 }
 
 function register(newUser, callback){
@@ -84,5 +102,8 @@ function login(req, callback){
 }
 
 module.exports.storeUser = storeUser;
+module.exports.storePhysical = storePhysical;
+module.exports.storeActivity = storeActivity;
+module.exports.storeExercise = storeExercise;
 module.exports.register = register;
 module.exports.login = login;

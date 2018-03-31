@@ -4,13 +4,13 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
 	'polar-user-id':{
 		type: Number,
-		reqired:false},
+		required:false},
 	'member-id':{
 		type:String,
-		reqired:false},
+		required:false},
 	'registration-date':{
 		type:String,
-		reqiured:false},
+		required:false},
 	'first-name':{
 		type:String,
 		required:false},
@@ -31,11 +31,11 @@ var UserSchema = new Schema({
 		required:false},
 	'field':{
 		type:String,
-		reqiured:false}
+		required:false}
 });
 
 //Physical information Schema
-var PhysicalInfoSchema= new schema({
+var PhysicalInfoSchema= new Schema({
 	"id":{
 		type: Number,
 		required:false},
@@ -44,10 +44,10 @@ var PhysicalInfoSchema= new schema({
 		required:false},
 	"created":{
 		type:Date,
-		required:false}
+		required:false},
 	"polar-user":{
 		type:String,
-		required:false}
+		required:false},
 	"weight":{
 		type:Number,
 		required:false},
@@ -105,6 +105,64 @@ var ActivitySchema =new Schema({
 		required:false}
 });
 
+//Activity schema
+var ExerciseSchema =new Schema({
+	"upload-time":{
+		type:String,
+		required:false},
+	"id":{
+		type:Number,
+		required:false},
+	"polar-user":{
+		type:String,
+		required:false},
+	"transaction-id":{
+		type:Number,
+		required:false},
+	"device":{
+		type:String,
+		required:false},
+	"start-time":{
+		type:String,
+		required:false},
+	"start-time":{
+		type:String,
+		required:false},
+	"calories":{
+		type:Number,
+		required:false},
+	"distance":{
+		type:Number,
+		required:false},
+	"heart-rate":{
+    "average": {
+			type:Number,
+			required:false } ,
+    "maximum": {
+			type:Number,
+			required:false}
+		},
+	"training-load":{
+		type:Number,
+		required:false},
+	"sport":{
+		type:String,
+		required:false},
+	"has-route":{
+		type:Boolean,
+		required:false},
+	"club-id":{
+		type:Number,
+		required:false},
+	"club-name":{
+		type:String,
+		required:false},
+	"detailed-sport-info":{
+		type:String,
+		required:false},
+});
+
 module.exports.UserSchema = UserSchema;
 module.exports.PhysicalInfoSchema = PhysicalInfoSchema;
 module.exports.ActivitySchema = ActivitySchema;
+module.exports.ExerciseSchema = ExerciseSchema;
