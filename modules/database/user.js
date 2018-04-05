@@ -8,10 +8,10 @@ var model = require('../../schema/modelUser')
 var Schema = mongoose.Schema;
 
 
-var Usermodel = mongoose.model('Usermodel', model.UserSchema);
-var Activitymodel = mongoose.model('Activitymodel', model.ActivitySchema);
-var Physicalmodel = mongoose.model('Physicalmodel', model.PhysicalInfoSchema);
-var Exercisemodel = mongoose.model('Exercisemodel', model.ExerciseSchema);
+var Usermodel = db.model('Usermodel', model.UserSchema);
+var Activitymodel = db.model('Activitymodel', model.ActivitySchema);
+var Physicalmodel = db.model('Physicalmodel', model.PhysicalInfoSchema);
+var Exercisemodel = db.model('Exercisemodel', model.ExerciseSchema);
 //Store User information
 function storeUser(data){
 
@@ -48,7 +48,7 @@ function storeExercise(data){
     Exercise[key] = data[key];
 }
 
-    db.collection('Exercise').save(Exercise);
+    db.save(Exercise);
 }
 
 function register(newUser, callback){

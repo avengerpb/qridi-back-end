@@ -32,7 +32,7 @@ var UserSchema = new Schema({
 	'field':{
 		type:String,
 		required:false}
-});
+}, {collection : 'Collection' });
 
 //Physical information Schema
 var PhysicalInfoSchema= new Schema({
@@ -72,7 +72,7 @@ var PhysicalInfoSchema= new Schema({
 	"weight-source":{
 		type:String,
 		required:false}
-});
+},{ collection : 'Physical' });
 
 //Activity schema
 var ActivitySchema =new Schema({
@@ -103,7 +103,7 @@ var ActivitySchema =new Schema({
 	"active-steps":{
 		type:Number,
 		required:false}
-});
+},{ collection : 'Activity' });
 
 //Activity schema
 var ExerciseSchema =new Schema({
@@ -160,7 +160,7 @@ var ExerciseSchema =new Schema({
 	"detailed-sport-info":{
 		type:String,
 		required:false},
-});
+},{collection : 'Exercise' });
 
 module.exports.UserSchema = UserSchema;
 module.exports.PhysicalInfoSchema = PhysicalInfoSchema;
