@@ -32,7 +32,7 @@ var UserSchema = new Schema({
 	'field':{
 		type:String,
 		required:false}
-}, {collection : 'Collection' });
+}, {collection : 'Users' });
 
 //Physical information Schema
 var PhysicalInfoSchema= new Schema({

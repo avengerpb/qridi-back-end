@@ -23,7 +23,7 @@ function getAverage(id,response){
       }}
     ], function (err, result) {
         if (err) {
-            return response(e);
+            return response(err);
         }
         else {
           return response(result);
@@ -31,6 +31,78 @@ function getAverage(id,response){
     });
 }
 
+function commonExercise(id,response){
+  Exercisemodel.aggregate([
+    { "$match": {
+        'polar-user': { $regex:  /.*/+id }
+      }},
+      { "$group": {
+        '_id': '$device',
+        count:{$sum:1}
+      }
+    },
+    {"$sort": {"count": -1}}
+      ],
+   function (err, result) {
+        if (err) {
+            return response(err);
+        }
+        else {
+          return response(result);
+        }
+    });
+}
+
+function commonSport(id,response){
+  Exercisemodel.aggregate([
+    { "$match": {
+        'polar-user': { $regex:  /.*/+id }
+      }},
+      { "$group": {
+        '_id': '$detailed-sport-info',
+        count:{$sum:1}
+      }
+    },
+    {"$sort": {"count": -1}}
+      ],
+   function (err, result) {
+        if (err) {
+            return response(err);
+        }
+        else {
+          return response(result);
+        }
+    });
+}
+
+function maxNumber(id,response){
+  Activitymodel.aggregate([
+    { "$match": {
+        'polar-user': { $regex:  /.*/+id }
+      }},
+      { "$group": {
+        '_id': id,
+        'max-calories': { $max: "$calories" },
+        'active-max': { $max: "$active-calories" },
+        'max-step': { $max: "$active-steps" }
+      }
+    },
+    {"$sort": {"count": -1}}
+      ],
+   function (err, result) {
+        if (err) {
+            return response(err);
+        }
+        else {
+          return response(result);
+        }
+    });
+}
+
+
 module.exports = {
-  getAverage: getAverage
+  getAverage: getAverage,
+  commonExercise: commonExercise,
+  commonSport: commonSport,
+  maxNumber: maxNumber
 }
