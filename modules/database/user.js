@@ -13,13 +13,18 @@ var Activitymodel = db.model('Activitymodel', model.ActivitySchema);
 var Physicalmodel = db.model('Physicalmodel', model.PhysicalInfoSchema);
 var Exercisemodel = db.model('Exercisemodel', model.ExerciseSchema);
 //Store User information
-function storeUser(data){
+function storeUser(data, sess){
 
   var User = new Usermodel();
   for (var key in data) {
     User[key] = data[key];
 }
     db.collection('Users').save(User);
+    console.log(User);
+
+    db.collection('LocalUsers').update(
+      { "fullname" : sess.fullname },
+  { $set: { "polar-user-id": User['polar-user-id'] } });
 }
 
 function storeActivity(data){
@@ -52,7 +57,7 @@ function storeExercise(data){
 }
 
 function register(newUser, callback){
-  db.collection('Users').findOne({
+  db.collection('LocalUsers').findOne({
 		$or: [
 			{'username': newUser.username},
 			{'email': newUser.email}
@@ -60,7 +65,7 @@ function register(newUser, callback){
 	}, (err, user) => {
 		if(err) throw err;
 		if(!user) {
-			db.collection('Users').insert(newUser, (err, user) => {
+			db.collection('LocalUsers').insert(newUser, (err, user) => {
 				if(err) { throw err; }
 				return callback('Register success');
 			});
@@ -76,7 +81,7 @@ function register(newUser, callback){
 }
 
 function login(req, callback){
-  db.collection('Users').findOne({
+  db.collection('LocalUsers').findOne({
 		$or: [
 			{'email': req.body.email_uname},
 			{'username': req.body.email_uname}

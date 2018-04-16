@@ -9,6 +9,8 @@ const data = require('../modules/database/user')
 
 //Student
 
+
+
 //Register
 router.get('/register', function(req, res, next) {
   res.render('register');
@@ -33,11 +35,15 @@ router.post('/register', function(req, res) {
 
 //Login
 router.get('/login', function(req, res, next) {
+  if (req.session.user && req.cookies.user_sid){
+    console.log(req.session.user);
+    // console.log(req.cookies.user_sid);
+    res.json("Logged")
+  } else {
     res.render('login');
+  }
 });
-var save_session = function(req,user){
-    req.session.user = user;
-}
+
 
 router.post('/login', function(req, res, next) {
     data.login(req, function(response){
@@ -58,13 +64,12 @@ router.post('/login', function(req, res, next) {
 });
 
 router.get('/logout', (req, res) => {
-	req.session.destroy((err) => {
-	  if(err) {
-	    throw err;
-	  } else {
-	    res.json('Logged Out');
-	  }
-	});
+  if (req.session.user && req.cookies.user_sid) {
+        res.clearCookie('user_sid');
+        res.json("Loggout")
+    } else {
+        res.json("Not Log in")
+    }
 });
 
 

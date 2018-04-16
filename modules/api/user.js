@@ -2,7 +2,7 @@ var fetch = require('node-fetch');
 const data = require('../database/user')
 
 //GET personal info from API
-function getInfo(id,token){
+function getInfo(id,token,user, response){
   const headers = {
     'Accept':'application/json',
     'Authorization' : 'Bearer ' + token
@@ -16,7 +16,8 @@ function getInfo(id,token){
 .then(function(res) {
     return res.json();
 }).then(function(body) {
-    data.storeUser(body); //storing data in Qridi database
+    return response('Stored');
+    data.storeUser(body,user); //storing data in Qridi database
 });
 }
 

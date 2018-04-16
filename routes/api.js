@@ -11,18 +11,29 @@ var store = require('../modules/database/user');
 /* GET Token. */
 
 router.get('/get_token', function(req, res, next) {
+  if (req.session.user && req.cookies.user_sid){
   auth.getToken(function(response){
     res.json(response)
   });
+}
+else {
+  res.json("Need Log in");
+}
 });
 
 router.get('/getInfo', function(req, res, next) {
   //Read python/config.yml to find token
+  if (req.session.user && req.cookies.user_sid){
   var data = readYaml.sync('polar_python/config.yml');
   var id = data.user_id;
   var token  = data.access_token;
-  req.session.token = token;
-  user.getInfo(id,token); //Call function to store user info to database
+  user.getInfo(id,token,req.session.user, function (response){
+    res.json(response);
+  });
+  } //Call function to store user info to database
+   else {
+     res.json("Need Log in");
+   }
 });
 
 // Get exercise data
