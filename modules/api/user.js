@@ -16,8 +16,8 @@ function getInfo(id,token,user, response){
 .then(function(res) {
     return res.json();
 }).then(function(body) {
-    return response('Stored');
-    data.storeUser(body,user); //storing data in Qridi database
+    data.storeUser(body,user);
+    return response(id); //storing data in Qridi database
 });
 }
 

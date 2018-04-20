@@ -9,8 +9,6 @@ const data = require('../modules/database/user')
 
 //Student
 
-
-
 //Register
 router.get('/register', function(req, res, next) {
   res.render('register');
@@ -29,7 +27,7 @@ router.post('/register', function(req, res) {
 		user_type: 'Normal'
 	}
 	data.register(newUser, function(response){
-    res.json({'Respone':response})
+    res.json(response)
   });
 });
 
@@ -46,10 +44,17 @@ router.get('/login', function(req, res, next) {
 
 
 router.post('/login', function(req, res, next) {
+  if (req.session.user && req.cookies.user_sid){
+    console.log(req.session.user);
+    // console.log(req.cookies.user_sid);
+    res.json("Logged")
+  }
+  else {
     data.login(req, function(response){
       if (response != 0 && response != 1){
         req.session.user = response;
-        res.redirect("/profile/"+ response.username);
+        res.json(response);
+        // res.redirect("/profile/"+ response.username);
       }
       else if (response == 0) {
         res.json("No user")
@@ -60,7 +65,7 @@ router.post('/login', function(req, res, next) {
       else {
         res.json("Problem")
       }
-    })
+    })}
 });
 
 router.get('/logout', (req, res) => {

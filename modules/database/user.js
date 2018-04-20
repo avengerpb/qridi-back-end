@@ -3,7 +3,6 @@ var dbURI = 'mongodb://swf:12345@ds233748.mlab.com:33748/qridi';
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const db = mongoose.createConnection(dbURI);
-// var data;
 var model = require('../../schema/modelUser')
 var Schema = mongoose.Schema;
 
@@ -14,17 +13,27 @@ var Physicalmodel = db.model('Physicalmodel', model.PhysicalInfoSchema);
 var Exercisemodel = db.model('Exercisemodel', model.ExerciseSchema);
 //Store User information
 function storeUser(data, sess){
-
-  var User = new Usermodel();
-  for (var key in data) {
-    User[key] = data[key];
-}
-    db.collection('Users').save(User);
-    console.log(User);
-
-    db.collection('LocalUsers').update(
-      { "fullname" : sess.fullname },
-  { $set: { "polar-user-id": User['polar-user-id'] } });
+  // db.collection('Users').findOne({
+	// 		'polar-user-id': data['polar-user-id']
+	// }, (err, user) => {
+	// 	if(err) throw err;
+	// 	if(!user) {
+      var User = new Usermodel();
+      for (var key in data) {
+        User[key] = data[key];
+    }
+        // db.collection('Users').save(User);
+        db.collection('Users').update(
+          { "polar-user-id" : User['polar-user-id']},
+      {}, { upsert: true});
+        db.collection('LocalUsers').update(
+          { "username" : sess},
+      { $set: { "polar-user-id": User['polar-user-id'] } });
+		// }
+    // else {
+		// 	console.log('Existed User')
+		// }
+		// });
 }
 
 function storeActivity(data){
@@ -67,7 +76,7 @@ function register(newUser, callback){
 		if(!user) {
 			db.collection('LocalUsers').insert(newUser, (err, user) => {
 				if(err) { throw err; }
-				return callback('Register success');
+				return callback(0);
 			});
 		} else {
 			if(user.username == newUser.username) {

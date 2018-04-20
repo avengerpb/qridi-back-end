@@ -11,7 +11,7 @@ function getToken (callback){
   PythonShell.run('authorization.py', options, function(err){
     if (err) {
       console.log(err);
-      return callback('Get Token success')
+      return callback('Get Token start')
     }
     else {
       return callback(false)
