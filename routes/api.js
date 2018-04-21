@@ -47,7 +47,7 @@ router.get('/getExercise', function(req, res, next) {
         user.getTraining(id,token, response, function (ms){
           ms.forEach(elem => {
             user.getData(id, token, elem, function(data) {
-              console.log(data);
+              // console.log(data);
               store.storeExercise(data);
               return res.json('Get Exercise');
             });
@@ -72,7 +72,7 @@ router.get('/getActivity', function(req, res, next) {
         user.getDaily(id,token, response, function (ms){
           ms.forEach(elem => {
             user.getData(id, token, elem, function(data) {
-              console.log(data);
+              // console.log(data);
               store.storeActivity(data);
             });
           });
@@ -97,7 +97,7 @@ router.get('/getPhysical', function(req, res, next) {
         user.getPhysical(id,token, response, function (ms){
           ms.forEach(elem => {
             user.getData(id, token, elem, function(data) {
-              console.log(data);
+              // console.log(data);
               store.storePhysical(data);
             });
           });

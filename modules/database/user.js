@@ -22,10 +22,8 @@ function storeUser(data, sess){
       for (var key in data) {
         User[key] = data[key];
     }
-        // db.collection('Users').save(User);
-        db.collection('Users').update(
-          { "polar-user-id" : User['polar-user-id']},
-      {}, { upsert: true});
+        db.collection('Users').remove({"polar-user-id" : User['polar-user-id']},{ justOne: true});
+        db.collection('Users').save(User);
         db.collection('LocalUsers').update(
           { "username" : sess},
       { $set: { "polar-user-id": User['polar-user-id'] } });
